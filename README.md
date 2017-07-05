@@ -1,2 +1,2 @@
 # buddy-scraper
-Buddy Scrapre
+Buddy Scraper
