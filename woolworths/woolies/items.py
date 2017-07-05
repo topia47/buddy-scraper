@@ -10,5 +10,7 @@ import scrapy
 
 class WooliesItem(scrapy.Item):
     link = scrapy.Field()
+    img = scrapy.Field()
+    name = scrapy.Field()
     
     pass
