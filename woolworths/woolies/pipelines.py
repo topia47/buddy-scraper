@@ -16,5 +16,11 @@ class WooliesPipeline(ImagesPipeline):
             yield Request(image_url)
 
     def item_completed(self, results, item, info):
-        item['image_paths'] = results[0][1]['path']
+        image_paths = [x['path'] for ok, x in results if ok]
+        if not image_paths:
+            raise DropItem("Item contains no images")
+        item['image_paths'] = image_paths
         return item
+        
+        #item['image_paths'] = results[1]
+        #return item
