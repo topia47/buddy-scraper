@@ -3,6 +3,7 @@ from scrapy_splash import SplashRequest
 #from scrapy.spiders import Rule, CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 from woolies.items import WooliesItem
+import urlparse as upar
 
 """
 Crawlspider used to crawl woolworths. Splash is used as JS renderer. 
@@ -55,7 +56,7 @@ class Woolies(scrapy.Spider):
                 f.write("https://www.woolworths.com.au" + url.strip() + "\n")
         
         next_page = response.xpath('//*[contains(concat( " ", @class, " " ), concat( " ", "_pagingNext", " " ))]/@href').extract_first()
-        item['desc'] = next_page
+        item['page'] = next_page
         try:
             next_page_abs = "https://www.woolworths.com.au" + next_page
         except:
@@ -78,17 +79,23 @@ class Woolies(scrapy.Spider):
 This is Spider 2. This spider is what scrapes the websites for the product info.
 """
 class ProductSpider(scrapy.Spider):
-
+    #TODO ADD description.
     name = "prod_wool"
     start_urls = [] #URL link for the all the products.
+    custom_settings = {
+    'ITEM_PIPELINES':{
+    'woolies.pipelines.WooliesPipeline': 300
+    }
+
+    }
 
     """
     Function used to add the prodcuts onto start_urls (empty at the start)
     """
     def __init__(self):
-        for line in open(r'woolworths_products_url.txt','r').readlines():
+        for line in open(r'woolworths_products_url_crawl.txt','r').readlines():
             self.start_urls.append(line.strip())
-        super(Woolies, self).__init__()
+        super(ProductSpider, self).__init__()
 
 
     def start_requests(self):
@@ -104,20 +111,35 @@ class ProductSpider(scrapy.Spider):
 
     """
     Important: We will use csv to store the info for each image.
-    Will have to 3 colums, Column 1 = name (Pauls Full Cream Milk 300ml)
-    while Column 2 = Images (path/url) and Column 3 = Description. *For now we will stick to url, since its easier.
-
     """
     def parse_products(self,response):
         """
         This is the parseer for the products, we fill the 3 main item field, [name], [desc]ription and [img]. They will be outputted in the CSV format.
         """
         item = WooliesItem()
-        item['name'] = response.css('.heading3').extract().strip()
-        item['img'] = response.css('.productDetail-imageContainer a::attr(href)')
-        #item['desc'] = 
-        yield item
+        for name in response.css('.heading3::text').extract():
+            item['name'] = name.strip()
 
+        item['image_urls'] = []
+        for each_url in response.css('img').xpath('@src').extract():
+            if each_url.__contains__("large"):
+                item['image_urls'].append(each_url)
+
+        yield item
+        """    
+        item['desc'] = []
+        extracted_desc = response.css('.productDetail-detailsSection ::text').extract()            
+        start = 1
+        end = extracted_desc.index('Disclaimer: ')
+        stripped_Desc = extracted_desc[start:end-1]
+        for descr in stripped_Desc:
+            item['desc'].append(descr.strip())
+            item['desc'] = ' '.join(item['desc'])    
+        
+        if extracted_desc is None:
+            item['desc'] = "Empty Description"
+        
+        """
 
 
 

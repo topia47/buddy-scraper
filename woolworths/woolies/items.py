@@ -9,8 +9,10 @@ import scrapy
 
 
 class WooliesItem(scrapy.Item):
+    page = scrapy.Field()
     link = scrapy.Field()
-    img = scrapy.Field()
+    image_urls = scrapy.Field()
+    image_paths = scrapy.Field()
     name = scrapy.Field()
     desc = scrapy.Field()
     
