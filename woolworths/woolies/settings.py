@@ -8,6 +8,7 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
+import scrapy_splash
 
 BOT_NAME = 'woolies'
 
@@ -19,7 +20,7 @@ NEWSPIDER_MODULE = 'woolies.spiders'
 #USER_AGENT = 'woolies (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -47,8 +48,7 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-    'woolies.middlewares.WooliesSpiderMiddleware': 543,
-    'woolies.SplashDeduplicateArgsMiddleware': 100,
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
 # Enable or disable downloader middlewares
@@ -61,14 +61,14 @@ This is the downloader middle ware that we use
 #    'woolies.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 DOWNLOADER_MIDDLEWARES = {
-    'woolies.SplashCookiesMiddleware': 723,
-    'woolies.SplashMiddleware': 725,
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
 }
 
 SPLASH_URL = 'http://localhost:8050'
-DUPEFILTER_CLASS = 'woolies.SplashAwareDupeFilter'
-HTTPCACHE_STORAGE = 'woolies.SplashAwareFSCacheStorage'
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
 
 
