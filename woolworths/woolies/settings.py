@@ -23,7 +23,7 @@ NEWSPIDER_MODULE = 'woolies.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 8
+#CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -62,6 +62,7 @@ This is the downloader middle ware that we use
 #}
 DOWNLOADER_MIDDLEWARES = {
     'woolies.random_useragent.RotateUserAgentMiddleware': 400,
+    'woolies.proxy.RandomProxyMiddleware': None,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
@@ -82,7 +83,6 @@ HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {'woolies.pipelines.WooliesPipeline': 300}
-
 IMAGES_STORE = "C:/new" #Path to save the image
 
 # Enable and configure the AutoThrottle extension (disabled by default)
