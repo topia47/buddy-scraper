@@ -4,7 +4,9 @@
 import random
 import scrapy
 from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
-
+"""
+Used to cycle through the different User Agents in order to avoid TimoutErrors.
+"""
 class RotateUserAgentMiddleware(UserAgentMiddleware):
     def __init__(self, user_agent=''):
         self.user_agent = user_agent

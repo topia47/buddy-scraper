@@ -10,11 +10,17 @@ from scrapy.pipelines.images import ImagesPipeline
 from scrapy.http import Request
 from scrapy.exceptions import DropItem
 
+"""
+PipeLine used to download images and get the path from the downloaded images
+"""
+
 class WooliesPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
-        for image_url in item['image_urls']:
+        for image_url in item['image_urls']: #Item that stores the image_urls and being used to download
             yield Request(image_url)
-
+    """
+    Function used to get the path of the downloaded image. Outputted onto the CSV.
+    """
     def item_completed(self, results, item, info):
         image_paths = [x['path'] for ok, x in results if ok]
         if not image_paths:

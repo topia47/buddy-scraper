@@ -3,8 +3,11 @@
 
 import random
 import scrapy
-
 from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
+"""
+Used to cycle through the different Proxies in order to avoid TimoutErrors and to stop being kicked out
+server.
+"""
 
 class RandomProxyMiddleware(HttpProxyMiddleware):
     def __init__(self, proxy_ip=''):

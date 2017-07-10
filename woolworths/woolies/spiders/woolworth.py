@@ -126,6 +126,7 @@ class ProductSpider(scrapy.Spider):
                 item['image_urls'].append(each_url)
 
         yield item
+        
         """    
         item['desc'] = []
         extracted_desc = response.css('.productDetail-detailsSection ::text').extract()            
