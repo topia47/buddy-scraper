@@ -79,7 +79,6 @@ class Woolies(scrapy.Spider):
 This is Spider 2. This spider is what scrapes the websites for the product info.
 """
 class ProductSpider(scrapy.Spider):
-    #TODO ADD description.
     name = "prod_wool"
     start_urls = [] #URL link for the all the products.
 
@@ -132,7 +131,58 @@ class ProductSpider(scrapy.Spider):
 
         yield item
         
-        
+
+class kmart(scrapy.Spider):
+    name = "kmart"
+    allowed_domains = []
+    start_urls = []
+    #http://www.kmart.com/sweet-baby-ray-s-barbecue-sauce-award-winning-18/p-08731693000P?plpSellerId=Kmart&prdNo=29&blockNo=29&blockType=G29#
+    """
+    Function used to add the prodcuts onto start_urls (empty at the start)
+    """
+    def __init__(self):
+        for line in open(r'kamrt_products_url_crawl.txt','r').readlines():
+            self.start_urls.append(line.strip())
+        super(ProductSpider, self).__init__()
+
+    def start_requests(self):
+        for products_url in self.start_urls:
+            yield SplashRequest(products_url, self.parse_kmart_products,
+                endpoint = 'render.html',
+                args = {'wait': 0.5,
+                        'viewport':'1366x768', 
+                        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36' 
+                },
+
+                )
+
+    def parse_kmart_products(self, response):
+        #image links of the images
+        item['image_urls'] = response.css("#overview a::attr(href)").extract()
+
+        #Name of the product.
+        item['name'] = response.css(".title-2 ::text").extract()
+
+        #Description of the product.
+        descr = []
+        description = response.css("#description p::text").extract()
+        for desc in description:
+            descr.append(desc.strip())
+            item['']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
