@@ -157,6 +157,7 @@ class kmart(scrapy.Spider):
                 )
 
     def parse_kmart_products(self, response):
+        item = WooliesItem()
         #image links of the images
         item['image_urls'] = response.css("#overview a::attr(href)").extract()
 
