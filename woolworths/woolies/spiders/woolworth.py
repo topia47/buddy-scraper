@@ -131,7 +131,7 @@ class ProductSpider(scrapy.Spider):
 
         yield item
         
-
+"""
 class kmart(scrapy.Spider):
     name = "kmart"
     allowed_domains = []
@@ -186,7 +186,7 @@ class kmart(scrapy.Spider):
 
 
 
-
+"""
 ################# To run Scrapy from script, rather that from CLI #########################
 """
 process = CrawlerProcess({
