@@ -45,7 +45,7 @@ Python based scraper created using Scrapy and Splash.
     `output.csv` has 6 columns out of which 3 are of interest, `name`, `desc` and `image_path`. All of these are self-explanatory, `output.csv` also contains, `images_url` which can be used to download images at a later time or used for cross-referencing purposes.
 
 8) Further work can be done to make the process more streamlined but in its current state it achieves its purpose.
-
+9) This project is currently on hold and will not explored in the near future.
 
 
 
